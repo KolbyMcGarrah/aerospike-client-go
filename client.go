@@ -31,7 +31,6 @@ import (
 	"golang.org/x/sync/semaphore"
 
 	. "github.com/aerospike/aerospike-client-go/internal/atomic"
-	"github.com/aerospike/aerospike-client-go/internal/metrics/metrics"
 	. "github.com/aerospike/aerospike-client-go/logger"
 	. "github.com/aerospike/aerospike-client-go/types"
 	xornd "github.com/aerospike/aerospike-client-go/types/rand"
@@ -175,9 +174,9 @@ func (clnt *Client) PutBins(ctx context.Context, policy *WritePolicy, key *Key, 
 		return err
 	}
 	// Add the method to the context to be recorded.
-	ctx = metrics.WithMethod(ctx, "PutBins")
+	ctx = WithMethod(ctx, "PutBins")
 	if clnt.instanceName != "" {
-		ctx = metrics.WithInstanceName(ctx, clnt.instanceName)
+		ctx = WithInstanceName(ctx, clnt.instanceName)
 	}
 	return command.Execute(ctx)
 }
@@ -907,9 +906,9 @@ func (clnt *Client) ExecuteUDFNode(ctx context.Context,
 func (clnt *Client) Query(ctx context.Context, policy *QueryPolicy, statement *Statement) (*Recordset, error) {
 	policy = clnt.getUsableQueryPolicy(policy)
 	// Add method and instance name to context for metrics.
-	ctx = metrics.WithMethod(ctx, "Query")
+	ctx = WithMethod(ctx, "Query")
 	if clnt.instanceName != "" {
-		ctx = metrics.WithInstanceName(ctx, clnt.instanceName)
+		ctx = WithInstanceName(ctx, clnt.instanceName)
 	}
 	nodes := clnt.cluster.GetNodes()
 	if len(nodes) == 0 {

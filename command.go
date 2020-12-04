@@ -28,7 +28,6 @@ import (
 	. "github.com/aerospike/aerospike-client-go/logger"
 	. "github.com/aerospike/aerospike-client-go/types"
 
-	"github.com/aerospike/aerospike-client-go/internal/metrics/metrics"
 	ParticleType "github.com/aerospike/aerospike-client-go/internal/particle_type"
 	Buffer "github.com/aerospike/aerospike-client-go/utils/buffer"
 )
@@ -1979,7 +1978,7 @@ func (cmd *baseCommand) executeAt(ctx context.Context, ifc command, policy *Base
 	isClientTimeout := false
 
 	// Record the latency of call and report any errors by passing err.
-	recordFunc := metrics.RecordCall(ctx)
+	recordFunc := RecordCall(ctx)
 	defer func() {
 		recordFunc(err)
 	}()
